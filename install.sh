@@ -30,7 +30,15 @@ sudo apt install -y \
 
 
 
+echo "Installing Python packages..."
+
+
+
 pip3 install --user -r requirements.txt
+
+
+
+echo "Building llama.cpp..."
 
 
 
@@ -52,6 +60,10 @@ cmake --build build -j$(nproc)
 
 
 
+echo "Downloading model..."
+
+
+
 mkdir -p ~/models
 
 
@@ -60,7 +72,7 @@ if [ ! -f ~/models/llama32-1b.gguf ]; then
 
     wget \
 
-https://huggingface.co/bartowski/Llama-3.2-1B-Instruct-GGUF/resolve/main/Llama-3.2-1B-Instruct-Q4_K_M.gguf \
+"https://huggingface.co/bartowski/Llama-3.2-1B-Instruct-GGUF/resolve/main/Llama-3.2-1B-Instruct-Q4_K_M.gguf" \
 
 -O ~/models/llama32-1b.gguf
 
@@ -68,8 +80,50 @@ fi
 
 
 
+echo "Making scripts executable..."
+
+
+
+cd ~/ubuntuai
+
+
+
 chmod +x scripts/*.sh
 
 
 
-echo "Installation complete."
+echo "Creating ubuntuai launcher..."
+
+
+
+sudo tee /usr/local/bin/ubuntuai > /dev/null << 'EOF'
+
+#!/bin/bash
+
+cd "$HOME/ubuntuai"
+
+./scripts/run.sh
+
+EOF
+
+
+
+sudo chmod +x /usr/local/bin/ubuntuai
+
+
+
+echo
+
+echo "======================================="
+
+echo "UbuntuAI installed successfully!"
+
+echo
+
+echo "Start it anytime with:"
+
+echo
+
+echo "ubuntuai"
+
+echo "======================================="
