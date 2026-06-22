@@ -1,0 +1,9 @@
+
+requests
+
+flask
+
+flask-socketio
+
+psutil
+
